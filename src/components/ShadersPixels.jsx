@@ -4,11 +4,13 @@ import { ReactP5Wrapper } from "@p5-wrapper/react";
 import vsTest from "../glsl/vertexShaderTest";
 import fsTestSprite from "../glsl/fragmentTestSprite";
 import fsTestPixel from "../glsl/fragmentPixels";
+import fsTestPixel02 from "../glsl/fragmentPixels02";
 
 let cw = 400;
 let ch = 400;
 let myShader;
 let img;
+let speed = 0;
 
 export default function ShadersPixels(props) {
   const [t, setT] = useState(0);
@@ -46,7 +48,7 @@ function setup(p5) {
     p5.pixelDensity(1);
     p5.createCanvas(cw, ch, p5.WEBGL);
     // myShader = p5.createShader(vs, fs);
-    myShader = p5.createShader(vsTest, fsTestPixel);
+    myShader = p5.createShader(vsTest, fsTestPixel02);
     p5.shader(myShader);
 
     p5.background(255, 255, 255, 0);
@@ -65,7 +67,7 @@ function draw(p5) {
   return () => {
     p5.background(255);
     p5.loadPixels();
-    myShader.setUniform("u_Data", p5.pixels);
+    myShader.setUniform("u_speed", speed);
     myShader.setUniform("u_time", p5.frameCount / 1000.0); // we divide millis by 1000 to convert it to seconds
     // myShader.setUniform("u_mouse", [
     //   p5.mouseX,
@@ -81,7 +83,7 @@ function draw(p5) {
     p5.endShape(p5.CLOSE);
 
     myShader.setUniform("u_image", img);
-
+    speed += 0.002;
     // p5.noLoop();
   };
 }
