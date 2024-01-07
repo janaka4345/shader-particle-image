@@ -3,13 +3,14 @@ import { ReactP5Wrapper } from "@p5-wrapper/react";
 
 import vsTest from "../glsl/vertexShaderTest";
 import fsTestSprite from "../glsl/fragmentTestSprite";
+import fsTestPixel from "../glsl/fragmentPixels";
 
 let cw = 400;
 let ch = 400;
 let myShader;
 let img;
 
-export default function SpriteWithShaders(props) {
+export default function ShadersPixels(props) {
   const [t, setT] = useState(0);
 
   return (
@@ -45,7 +46,7 @@ function setup(p5) {
     p5.pixelDensity(1);
     p5.createCanvas(cw, ch, p5.WEBGL);
     // myShader = p5.createShader(vs, fs);
-    myShader = p5.createShader(vsTest, fsTestSprite);
+    myShader = p5.createShader(vsTest, fsTestPixel);
     p5.shader(myShader);
 
     p5.background(255, 255, 255, 0);
@@ -56,14 +57,16 @@ function setup(p5) {
   };
 }
 function preload(p5) {
-  img = p5.loadImage("./numberedgrid.png"); //numbered grid low rez
+  img = p5.loadImage("./colorgrid.png");
+  // img = p5.loadImage("./numberedgrid.png"); //numbered grid low rez
   // img = p5.loadImage("./Test_grid_high_def.png"); //numbered grid high rez
 }
 function draw(p5) {
   return () => {
+    p5.background(255);
     p5.loadPixels();
     myShader.setUniform("u_Data", p5.pixels);
-    // myShader.setUniform("u_time", p5.millis() / 1000.0); // we divide millis by 1000 to convert it to seconds
+    myShader.setUniform("u_time", p5.frameCount / 1000.0); // we divide millis by 1000 to convert it to seconds
     // myShader.setUniform("u_mouse", [
     //   p5.mouseX,
     //   p5.map(p5.mouseY, 0, ch, ch, 0),

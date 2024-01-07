@@ -4,11 +4,13 @@ import "./App.css";
  */
 
 import SpriteWithShaders from "./components/SpriteWithShaders"; //sprite animation with shaders
+import ShadersPixels from "./components/ShadersPixels"; //sprite animation with shaders
 
 function App() {
   return (
     <>
-      <SpriteWithShaders />
+      {/* <SpriteWithShaders /> */}
+      <ShadersPixels />
     </>
   );
 }
